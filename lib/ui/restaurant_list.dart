@@ -1,40 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:warjoe/detail_page.dart';
-import 'package:warjoe/model/ApiResponse.dart';
-import 'package:warjoe/model/restaurant.dart';
+import 'package:provider/provider.dart';
+import 'package:warjoe/provider/restaurants_provider.dart';
+import 'package:warjoe/util.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+import '../data/model/Restaurant.dart';
+import 'detail_page.dart';
+
+class RestaurantListPage extends StatelessWidget {
+  const RestaurantListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Restaurant Menu")),
-      body: FutureBuilder(
-        future: DefaultAssetBundle.of(context)
-            .loadString('assets/local_restaurant.json'),
-        builder: (contex, snapshot) {
-          final ApiResponse response =
-              apiResponseFromJson(snapshot.data!.toString());
-          final List<Restaurant> restaurants = response.restaurants;
-          return ListView.builder(
-            itemCount: restaurants.length,
-            itemBuilder: (context, index) {
-              return _buildRestaurantItem(context, restaurants[index]);
-            },
-          );
-        },
-      ),
-    );
+    return _buildList();
   }
 }
 
-Widget _buildRestaurantItem(BuildContext context, Restaurant restaurant) {
+Widget _buildList() {
+  return Consumer<RestaurantsProvider>(
+    builder: (context, state, _) {
+      if (state.state == ResultState.loading) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (state.state == ResultState.hasData) {
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: state.result.restaurants.length,
+          itemBuilder: (context, index) {
+            var restaurant = state.result.restaurants[index];
+            return buildRestaurantItem(context, restaurant);
+          },
+        );
+      } else if (state.state == ResultState.noData) {
+        return Center(
+          child: Material(
+            child: Text(state.message),
+          ),
+        );
+      } else if (state.state == ResultState.error) {
+        return Center(
+          child: Material(
+            child: Text(state.message),
+          ),
+        );
+      } else {
+        return const Center(
+          child: Material(
+            child: Text(''),
+          ),
+        );
+      }
+    },
+  );
+}
+
+Widget buildRestaurantItem(BuildContext context, Restaurant restaurant) {
   return InkWell(
     onTap: () {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => DetailPage(restaurant: restaurant),
+          builder: (context) => DetailPage(id: restaurant.id),
         ),
       );
     },
@@ -51,11 +74,11 @@ Widget _buildRestaurantItem(BuildContext context, Restaurant restaurant) {
                 width: 100,
                 clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(
-                  shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.all(Radius.circular(4)) 
-                ),
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
                 child: Image.network(
-                  restaurant.pictureId,
+                  parseRestaurantUrl(
+                      restaurant.pictureId, ImageResolution.medium),
                   fit: BoxFit.cover,
                 ),
               ),
