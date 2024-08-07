@@ -12,13 +12,13 @@ class RestaurantDetailProvider extends ChangeNotifier {
     _fetchRestaurant(id);
   }
 
-  late RestaurantDetail _apiResponse;
+  late RestaurantDetailResponse _apiResponse;
   late ResultState _state;
   String _message = '';
 
   String get message => _message;
 
-  RestaurantDetail get result => _apiResponse;
+  RestaurantDetailResponse get result => _apiResponse;
 
   ResultState get state => _state;
 
@@ -36,7 +36,7 @@ class RestaurantDetailProvider extends ChangeNotifier {
         notifyListeners();
         return _apiResponse = restaurant;
       }
-    } on Exception catch (e) {
+    } on Exception catch (_) {
       _state = ResultState.error;
       notifyListeners();
       return _message = "No Internet Connection";

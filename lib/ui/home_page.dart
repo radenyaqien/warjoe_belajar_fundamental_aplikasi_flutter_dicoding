@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:warjoe/data/remote/api_service.dart';
 import 'package:warjoe/provider/restaurants_provider.dart';
+import 'package:warjoe/ui/favorite_page.dart';
 import 'package:warjoe/ui/restaurant_list.dart';
 import 'package:warjoe/ui/search_page.dart';
 
@@ -11,7 +12,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RestaurantsProvider>(
-        create: (context) => RestaurantsProvider(apiService: ApiService()),
+      create: (context) => RestaurantsProvider(apiService: ApiService()),
       child: const HomeContent(),
     );
   }
@@ -32,6 +33,16 @@ class HomeContent extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const SearchPage(),
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.favorite_rounded),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const FavoritePage(),
                   ),
                 );
               },

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:warjoe/data/remote/api_service.dart';
 import 'package:warjoe/provider/search_restaurant_provider.dart';
-import 'package:warjoe/ui/restaurant_list.dart';
+import 'package:warjoe/ui/widget/restaurant_item.dart';
 import 'package:warjoe/widget/search_appbar.dart';
 
 class SearchPage extends StatelessWidget {
@@ -32,7 +32,7 @@ class SearchResult extends StatelessWidget {
             itemCount: state.result.restaurants.length,
             itemBuilder: (context, index) {
               var restaurant = state.result.restaurants[index];
-              return buildRestaurantItem(context, restaurant);
+              return RestaurantItem(restaurant: restaurant);
             },
           );
         } else if (state.state == ResultState.noData) {

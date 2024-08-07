@@ -1,25 +1,25 @@
 
 import 'dart:convert';
 
-RestaurantDetail restaurantsDetailFromJson(String str) => RestaurantDetail.fromJson(json.decode(str));
+RestaurantDetailResponse restaurantsDetailFromJson(String str) => RestaurantDetailResponse.fromJson(json.decode(str));
 
-String restaurantsDetailToJson(RestaurantDetail data) => json.encode(data.toJson());
+String restaurantsDetailToJson(RestaurantDetailResponse data) => json.encode(data.toJson());
 
-class RestaurantDetail {
+class RestaurantDetailResponse {
   bool error;
   String message;
-  Restaurant restaurant;
+  RestaurantDetail restaurant;
 
-  RestaurantDetail({
+  RestaurantDetailResponse({
     required this.error,
     required this.message,
     required this.restaurant,
   });
 
-  factory RestaurantDetail.fromJson(Map<String, dynamic> json) => RestaurantDetail(
+  factory RestaurantDetailResponse.fromJson(Map<String, dynamic> json) => RestaurantDetailResponse(
     error: json["error"],
     message: json["message"],
-    restaurant: Restaurant.fromJson(json["restaurant"]),
+    restaurant: RestaurantDetail.fromJson(json["restaurant"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -29,7 +29,7 @@ class RestaurantDetail {
   };
 }
 
-class Restaurant {
+class RestaurantDetail {
   String id;
   String name;
   String description;
@@ -41,7 +41,7 @@ class Restaurant {
   double rating;
   List<CustomerReview> customerReviews;
 
-  Restaurant({
+  RestaurantDetail({
     required this.id,
     required this.name,
     required this.description,
@@ -54,7 +54,7 @@ class Restaurant {
     required this.customerReviews,
   });
 
-  factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
+  factory RestaurantDetail.fromJson(Map<String, dynamic> json) => RestaurantDetail(
     id: json["id"],
     name: json["name"],
     description: json["description"],

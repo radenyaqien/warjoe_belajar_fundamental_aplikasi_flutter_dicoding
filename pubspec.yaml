@@ -37,6 +37,7 @@ dependencies:
   flutter_pannable_rating_bar: ^2.7.2+1
   http: ^1.2.2
   provider: ^6.1.2
+  sqflite: ^2.3.3+1
 
 dev_dependencies:
   flutter_test:
