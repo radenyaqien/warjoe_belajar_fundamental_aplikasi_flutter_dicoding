@@ -5,13 +5,14 @@ import 'package:warjoe/data/local/database_helper.dart';
 import 'package:warjoe/data/remote/api_service.dart';
 import 'package:warjoe/provider/database_provider.dart';
 import 'package:warjoe/provider/restaurant_detail_provider.dart';
-import 'package:warjoe/util.dart';
+import 'package:warjoe/utils/imageurl_helper.dart';
 
 import '../data/model/detail/restaurant_detail.dart';
 import '../provider/restaurants_provider.dart';
 import '../widget/horizontal_gridview.dart';
 
 class DetailPage extends StatefulWidget {
+  static String routeName="detailpage";
   const DetailPage({super.key, required this.id});
 
   final String id;

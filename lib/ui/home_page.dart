@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:warjoe/data/remote/api_service.dart';
 import 'package:warjoe/provider/restaurants_provider.dart';
+import 'package:warjoe/ui/detail_page.dart';
 import 'package:warjoe/ui/favorite_page.dart';
 import 'package:warjoe/ui/restaurant_list.dart';
 import 'package:warjoe/ui/search_page.dart';
+import 'package:warjoe/ui/setting_page.dart';
+
+import '../utils/background_service.dart';
+import '../utils/notification_helper.dart';
 
 class HomePage extends StatelessWidget {
+  static String routeName="/homepage";
   const HomePage({super.key});
 
   @override
@@ -18,8 +24,30 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class HomeContent extends StatelessWidget {
+class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
+
+  @override
+  State<HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+  final BackgroundService _service = BackgroundService();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _notificationHelper
+        .configureSelectNotificationSubject(DetailPage.routeName);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +71,16 @@ class HomeContent extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const FavoritePage(),
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SettingPage(),
                   ),
                 );
               },

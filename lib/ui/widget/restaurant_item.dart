@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:warjoe/data/model/Restaurant.dart';
 
-import '../../util.dart';
+import '../../utils/imageurl_helper.dart';
+import '../../utils/navigation.dart';
 import '../detail_page.dart';
 
 class RestaurantItem extends StatelessWidget {
@@ -13,11 +14,7 @@ class RestaurantItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => DetailPage(id: restaurant.id),
-          ),
-        );
+        Navigation.intentWithData(DetailPage.routeName, restaurant.id);
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
