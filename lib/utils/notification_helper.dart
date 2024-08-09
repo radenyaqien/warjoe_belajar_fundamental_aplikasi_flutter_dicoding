@@ -40,7 +40,7 @@ class NotificationHelper {
 
   Future<void> showNotification(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-      RestaurantsResponse articles) async {
+      RestaurantsResponse restaurants) async {
     var channelId = "1";
     var channelName = "channel_01";
     var channelDescription = "Reminder channel";
@@ -57,11 +57,11 @@ class NotificationHelper {
         NotificationDetails(android: androidPlatformChannelSpecifics);
 
     var titleNotification = "<b>daily Reminder</b>";
-    var titleNews = articles.restaurants[0].name;
+    var titleNews = restaurants.restaurants[0].name;
 
     await flutterLocalNotificationsPlugin.show(
         0, titleNotification, titleNews, platformChannelSpecifics,
-        payload: json.encode(articles.toJson()));
+        payload: json.encode(restaurants.toJson()));
   }
 
   void configureSelectNotificationSubject(String route) {
